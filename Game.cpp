@@ -78,6 +78,10 @@ void Game::gameLoop() {
 		if (pressedKey == 'r' && !inMenu) {
 			setupLevel(currLevel);
 		}
+		else if (pressedKey == 'x' && !inMenu) {
+			currLevel++;
+			setupLevel(currLevel);
+		}
 		ui.evaluateInput(pressedKey, moveReq, enterFlag, inMenu); // could be removed
 	}
 	return;

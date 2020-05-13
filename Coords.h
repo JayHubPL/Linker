@@ -14,5 +14,6 @@ public:
 	int getType() const;
 	bool operator== (const Coords &p) const { return (this->x == p.x && this->y == p.y); }
 	bool operator!= (const Coords &p) const { return (this->x != p.x || this->y != p.y); }
+	bool operator< (const Coords &p) const;
 	Coords(int x = -1, int y = -1, int dir = -1) : x(x), y(y), direction(dir), gap(false) { }
 };

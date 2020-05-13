@@ -25,3 +25,10 @@ int Coords::getType() const {
 	else if (x % 2 == 0 && y % 2 == 1) return 1; // vertival line
 	else return 2; // horizontal line
 }
+
+bool Coords::operator< (const Coords &p) const {
+	if (this->getX() == p.getX())
+		return this->getY() < p.getY();
+	else
+		return this->getX() < p.getX();
+};

@@ -78,6 +78,8 @@ bool Tetromino::isFulfilled(Player& player, Level& lvl) {
 	}
 	if (sumOfTiles != vTilesInUnion.size())
 		return false;
+	std::sort(vTilesInUnion.begin(), vTilesInUnion.end());
+	std::vector<Coords> occupied;
 	do {
 		// rotation generator
 		std::vector<std::vector<std::pair<int, int>>> vTetros = vTetrominosInUnion;
@@ -88,13 +90,13 @@ bool Tetromino::isFulfilled(Player& player, Level& lvl) {
 		BaseXNum placement((int)vTetros.size(), (int)vTilesInUnion.size());
 		do {
 			// placement generator
-			std::vector<Coords> occupied;
 			for (int i = 0; i < vTetros.size(); i++)
 				for (int k = 0; k < vTetros[i].size(); k++)
 					occupied.push_back(Coords(2 * vTetros[i][k].first + vTilesInUnion[placement.getDigit(i)].getX(), 2 * vTetros[i][k].second + vTilesInUnion[placement.getDigit(i)].getY()));
+			std::sort(occupied.begin(), occupied.end());
 			bool correct = true;
 			for (int i = 0; i < vTilesInUnion.size(); i++)
-				if (!checkForPointInVector(vTilesInUnion[i], occupied)) {
+				if (occupied[i] != vTilesInUnion[i]) {
 					correct = false;
 					break;
 				}
@@ -103,6 +105,7 @@ bool Tetromino::isFulfilled(Player& player, Level& lvl) {
 					(std::static_pointer_cast<Tetromino>(vPtr[i]))->inSolution = true;
 				return true;
 			}
+			occupied.clear();
 		} while (placement.increment());
 	} while (rotation.increment());
 	return false;
