@@ -56,10 +56,27 @@ void Level::readLevelData(int lvlNo) {
 	int x, y, param1, param2, stage = -1;
 	const std::vector<std::pair<int, int>> vShift = { {0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {1, 1}, {-1, 1}, {1, -1} };
 	const std::vector<std::string> vLabel = { "$TILE", "$ENTRY", "$EXIT", "$DOT", "$COLOR", "$TETROMINO", "$GAP" };
+	const std::vector<std::string> vTemplate = { "#2x2", "#2x3", "#3x2", "#3x3", "#3x4", "#4x3", "#4x4", "#4x5", "#5x4", "#5x5" };
 	while (file >> input) {
 		if (input[0] == '$') {
 			for (int i = 0; i < vLabel.size(); i++)
-				if (input == vLabel[i]) stage = i;
+				if (input == vLabel[i])
+					stage = i;
+			continue;
+		}
+		if (input[0] == '#') {
+			for (int k = 0; k < vTemplate.size(); k++)
+				if (input == vTemplate[k]) {
+					for (int n = 1; n <= 2 * (vTemplate[k][3] - '0') - 1; n += 2)
+						for (int m = 1; m <= 2 * (vTemplate[k][1] - '0') - 1; m += 2) {
+							vTile.push_back(Coords(m, n));
+							for (int i = 0; i < vShift.size(); i++)
+								if (!checkForPoint(Coords(m + vShift[i].first, n + vShift[i].second)))
+									vPanel.push_back(Coords(m + vShift[i].first, n + vShift[i].second));
+						}
+					entry = Coords(0, 2 * (vTemplate[k][3] - '0'));
+					exit = Coords(2 * (vTemplate[k][1] - '0'), 0);
+				}
 			continue;
 		}
 		x = std::stoi(input);

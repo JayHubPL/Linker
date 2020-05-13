@@ -63,9 +63,6 @@ void Game::gameLoop() {
 			if (enterFlag) {
 				if (checkSolution()) {
 					currLevel++;
-					// overflow
-					if (currLevel == 5)
-						currLevel = 0;
 					setupLevel(currLevel);
 				}
 				player.resetPlayer(level.getEntry());
@@ -77,6 +74,10 @@ void Game::gameLoop() {
 			}
 		}
 		pressedKey = ui.showFrame(1); // key press detection
+		//dev tools
+		if (pressedKey == 'r' && !inMenu) {
+			setupLevel(currLevel);
+		}
 		ui.evaluateInput(pressedKey, moveReq, enterFlag, inMenu); // could be removed
 	}
 	return;

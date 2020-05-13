@@ -118,7 +118,8 @@ Tetromino::Tetromino(int x, int y, int shapeID, bool rotatable) : LogicElement(C
 		{ {0,0},{1,0},{0,1},{0,2} },
 		{ {0,0},{1,0},{1,1},{1,2} },
 		{ {0,0},{0,1},{1,1} },
-		{ {0,0},{1,1} }
+		{ {0,0},{1,1} },
+		{ {0,0},{1,0},{2,0},{1,1} }
 	};
 	shape = vAllShapes[shapeID];
 }

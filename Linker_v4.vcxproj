@@ -164,13 +164,6 @@
     <ClInclude Include="Level.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="levels\0.txt" />
-    <Text Include="levels\1.txt" />
-    <Text Include="levels\2.txt" />
-    <Text Include="levels\3.txt" />
-    <Text Include="levels\4.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

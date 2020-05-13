@@ -4,5 +4,3 @@ $ENTRY
 0 2
 $EXIT
 2 0
-$GAP
-0 1

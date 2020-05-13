@@ -75,21 +75,4 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="levels\1.txt">
-      <Filter>Pliki zasobów</Filter>
-    </Text>
-    <Text Include="levels\2.txt">
-      <Filter>Pliki zasobów</Filter>
-    </Text>
-    <Text Include="levels\3.txt">
-      <Filter>Pliki zasobów</Filter>
-    </Text>
-    <Text Include="levels\4.txt">
-      <Filter>Pliki zasobów</Filter>
-    </Text>
-    <Text Include="levels\0.txt">
-      <Filter>Pliki zasobów</Filter>
-    </Text>
-  </ItemGroup>
 </Project>
