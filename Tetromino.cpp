@@ -55,6 +55,45 @@ void rotatePoint(std::pair<int, int>& p, int k) {
 	}
 }
 
+/*
+void rotateTetromino(std::vector<std::pair<int, int>>& tetro, int k) {
+	for (int i = 0; i < tetro.size(); i++)
+		rotatePoint(tetro[i], k);
+}
+
+bool solve(std::vector<std::vector<std::pair<int, int>>>& vTetrominosInUnion, int it, const std::vector< Coords >& vTilesInUnion) {
+	if (it == vTetrominosInUnion.size())
+		return vTilesInUnion.empty();
+	for (int k = 0; k<4; k++) {
+		rotateTetromino(vTetrominosInUnion[it], 1);
+		for (int p = 0; p<vTilesInUnion.size(); p++) {
+			bool sukces = true;
+			std::vector<Coords> kopia_vTiles = vTilesInUnion;
+			for (int i = 0; i<vTetrominosInUnion[it].size(); i++) {
+				Coords occupied = Coords(vTilesInUnion[it].getX() + vTetrominosInUnion[it][i].first, vTilesInUnion[it].getY() + vTetrominosInUnion[it][i].second);
+				bool found = false;
+				for(int t = 0; t<kopia_vTiles.size(); t++)
+					if(kopia_vTiles[t] == occupied) {
+						kopia_vTiles[t] = kopia_vTiles.back();
+						kopia_vTiles.pop_back();
+						found = true;
+						break;
+					}
+				if(not found) {
+					sukces = false;
+					break;
+				}
+			}
+			if (not sukces)
+				continue;
+			if (solve(vTetrominosInUnion, it + 1, kopia_vTiles))
+				return true;
+		}
+	}
+	return false;
+}
+*/
+
 bool Tetromino::isFulfilled(Player& player, Level& lvl) {
 	// checking if union resolver previously
 	if (inSolution)

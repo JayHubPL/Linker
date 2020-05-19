@@ -7,6 +7,7 @@
 #include "Color.h"
 #include "Level.h"
 #include "Tetromino.h"
+#include "Dorito.h"
 
 Coords Level::getEntry() const {
 	return entry;
@@ -55,7 +56,7 @@ void Level::readLevelData(int lvlNo) {
 	std::string input;
 	int x, y, param1, param2, stage = -1;
 	const std::vector<std::pair<int, int>> vShift = { {0, -1}, {0, 1}, {-1, 0}, {1, 0}, {-1, -1}, {1, 1}, {-1, 1}, {1, -1} };
-	const std::vector<std::string> vLabel = { "$TILE", "$ENTRY", "$EXIT", "$DOT", "$COLOR", "$TETROMINO", "$GAP" };
+	const std::vector<std::string> vLabel = { "$TILE", "$ENTRY", "$EXIT", "$DOT", "$COLOR", "$TETROMINO", "$GAP", "$DORITO" };
 	const std::vector<std::string> vTemplate = { "#2x2", "#2x3", "#3x2", "#3x3", "#3x4", "#4x3", "#4x4", "#4x5", "#5x4", "#5x5" };
 	while (file >> input) {
 		if (input[0] == '$') {
@@ -109,6 +110,10 @@ void Level::readLevelData(int lvlNo) {
 			for (int i = 0; i < vPanel.size(); i++)
 				if (vPanel[i] == Coords(x, y))
 					vPanel[i].makeGap();
+			break;
+		case 7:
+			file >> param1;
+			vLogElem.emplace_back(new Dorito(x, y, param1));
 			break;
 		}
 	}
