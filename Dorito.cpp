@@ -19,19 +19,19 @@ void Dorito::drawLogElem(cv::Mat& canvas, int scale, std::pair<int, int> offset)
 		cv::fillConvexPoly(canvas, triangle, 3, cv::Scalar(255, 255, 255));
 	else if (count == 2) {
 		for (int i = 0; i < 3; i++)
-			triangle[i] -= cv::Point(size*.5, 0);
+			triangle[i] -= cv::Point(size * .6, 0);
 		cv::fillConvexPoly(canvas, triangle, 3, cv::Scalar(255, 255, 255));
 		for (int i = 0; i < 3; i++)
-			triangle[i] += cv::Point(size, 0);
+			triangle[i] += cv::Point(size * 1.2, 0);
 		cv::fillConvexPoly(canvas, triangle, 3, cv::Scalar(255, 255, 255));
 	}
 	else if (count == 3) {
 		cv::fillConvexPoly(canvas, triangle, 3, cv::Scalar(255, 255, 255));
 		for (int i = 0; i < 3; i++)
-			triangle[i] -= cv::Point(size, 0);
+			triangle[i] -= cv::Point(size * 1.1, 0);
 		cv::fillConvexPoly(canvas, triangle, 3, cv::Scalar(255, 255, 255));
 		for (int i = 0; i < 3; i++)
-			triangle[i] += cv::Point(size * 2, 0);
+			triangle[i] += cv::Point(size * 2.2, 0);
 		cv::fillConvexPoly(canvas, triangle, 3, cv::Scalar(255, 255, 255));
 	}
 		

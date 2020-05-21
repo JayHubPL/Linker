@@ -14,7 +14,7 @@ public:
 	const cv::Scalar backgroundColor;
 	const cv::Scalar playerColor;
 	void initialize();
-	int navigateMenu(int, bool&, bool&, bool&);
+	int navigateMenu(int, bool&, bool&, bool&, bool&);
 	void drawLevel(Level&, Player&);
 	int showFrame(int);
 	void evaluateInput(int&, bool&, bool&, bool&);

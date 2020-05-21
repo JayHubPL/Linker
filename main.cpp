@@ -1,7 +1,7 @@
 #include<iostream>
 #include"Game.h"
 
-int main(void) {
+int WinMain(void) {
 	Game linker;
 	linker.gameLoop();
 	return 0;

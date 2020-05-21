@@ -34,6 +34,8 @@ int Game::readSave() {
 	return lvlNo;
 }
 
+
+
 void Game::gameLoop() {
 
 	int currLevel = readSave();
@@ -42,12 +44,15 @@ void Game::gameLoop() {
 	bool inMenu = true;
 	bool moveReq = false;
 	bool enterFlag = false;
+	bool ending = false;
+
+	const int howManyLvls = 66;
 
 	ui.initialize();
 
 	while (isRunning) {
 		if (inMenu) {
-			switch (ui.navigateMenu(pressedKey, inMenu, isRunning, enterFlag)) {
+			switch (ui.navigateMenu(pressedKey, inMenu, isRunning, enterFlag, ending)) {
 			case 0:
 				currLevel = 0;
 				setupLevel(0);
@@ -56,14 +61,19 @@ void Game::gameLoop() {
 				setupLevel(currLevel);
 				break;
 			}
-			moveReq = false; // scraps after navigating menu
 		}
 		else { // for gameplay exclusively
 			ui.drawLevel(level, player);
 			if (enterFlag) {
 				if (checkSolution()) {
 					currLevel++;
-					setupLevel(currLevel);
+					if (currLevel == howManyLvls) {
+						ending = true;
+						inMenu = true;
+						currLevel = 0;
+					}
+					else
+						setupLevel(currLevel);
 				}
 				player.resetPlayer(level.getEntry());
 				enterFlag = false;
@@ -80,7 +90,13 @@ void Game::gameLoop() {
 		}
 		else if (pressedKey == 'x' && !inMenu) {
 			currLevel++;
-			setupLevel(currLevel);
+			if (currLevel == howManyLvls) {
+				ending = true;
+				inMenu = true;
+				currLevel = 0;
+			}
+			else
+				setupLevel(currLevel);
 		}
 		ui.evaluateInput(pressedKey, moveReq, enterFlag, inMenu); // could be removed
 	}

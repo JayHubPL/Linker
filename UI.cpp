@@ -8,19 +8,26 @@ void UI::initialize() {
 	frame = cv::Mat::zeros(winHeight, winWidth, CV_8UC3);
 }
 
-int UI::navigateMenu(int key, bool& inMenu, bool& isRunning, bool& enterFlag) {
+int UI::navigateMenu(int key, bool& inMenu, bool& isRunning, bool& enterFlag, bool& ending) {
 	static enum MENU_STATUS {
 		NEUTRAL,
 		NEW_GAME,
 		CONTINUE,
 		CREDITS_SELECT,
 		EXIT,
-		CREDITS
+		CREDITS,
+		ENDING
 	} menuStatus = NEUTRAL;
+	if (ending)
+		menuStatus = ENDING;
 	if (menuStatus == NEUTRAL && key != -1)
 		menuStatus = NEW_GAME;
 	else if (menuStatus == CREDITS && key != -1)
 		menuStatus = CREDITS_SELECT;
+	else if (menuStatus == ENDING && key != -1) {
+		menuStatus = NEUTRAL;
+		ending = false;
+	}
 	else {
 		switch (key) {
 		case 119: // w
@@ -170,7 +177,8 @@ void UI::evaluateInput(int& key, bool& moveReq, bool& enterFlag, bool& inMenu) {
 	case 97: // a
 	case 115: // s
 	case 100: // d
-		moveReq = true;
+		if (!inMenu)
+			moveReq = true;
 		break;
 	case 27: // esc
 		inMenu = true;
