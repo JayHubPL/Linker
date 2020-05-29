@@ -6,6 +6,7 @@
 void Game::setupLevel(int lvlNo) {
 	level.readLevelData(lvlNo);
 	player.resetPlayer(level.getEntry());
+	ui.setTitle("Linker: Level " + std::to_string(lvlNo));
 	saveProgress(lvlNo);
 }
 
@@ -34,8 +35,6 @@ int Game::readSave() {
 	return lvlNo;
 }
 
-
-
 void Game::gameLoop() {
 
 	int currLevel = readSave();
@@ -52,6 +51,7 @@ void Game::gameLoop() {
 
 	while (isRunning) {
 		if (inMenu) {
+			ui.setTitle("Linker");
 			switch (ui.navigateMenu(pressedKey, inMenu, isRunning, enterFlag, ending)) {
 			case 0:
 				currLevel = 0;
@@ -83,7 +83,7 @@ void Game::gameLoop() {
 				moveReq = false;
 			}
 		}
-		pressedKey = ui.showFrame(1); // key press detection
+		pressedKey = ui.showFrame(10, currLevel); // key press detection
 		//dev tools
 		if (pressedKey == 'r' && !inMenu) {
 			setupLevel(currLevel);
@@ -98,6 +98,8 @@ void Game::gameLoop() {
 			else
 				setupLevel(currLevel);
 		}
+		else if (pressedKey == 'z' && !inMenu)
+			setupLevel((--currLevel == -1) ? ++currLevel : currLevel);
 		ui.evaluateInput(pressedKey, moveReq, enterFlag, inMenu); // could be removed
 	}
 	return;

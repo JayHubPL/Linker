@@ -164,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Color.h" />
+    <ClInclude Include="ColorPalette.h" />
     <ClInclude Include="Coords.h" />
     <ClInclude Include="Dorito.h" />
     <ClInclude Include="Game.h" />

@@ -29,6 +29,7 @@ bool Player::move(int dir, Level &lvl) {
 			vecDirPos = i;
 			if (facing() == vDir[(vecDirPos + 2) % 4]) {
 				vMoveHistory.pop_back();
+				vMoveHistory.pop_back();
 				return true;
 			}
 		}
@@ -38,11 +39,10 @@ bool Player::move(int dir, Level &lvl) {
 		for (int i = 0; i < lvl.vPanel.size(); i++)
 			if (newPos == lvl.vPanel[i] && lvl.vPanel[i].isGap())
 				return false;
-		for (int i = 0; i < vMoveHistory.size(); i++)
-			if (newPos == vMoveHistory[i])
-				return false;
+		if (std::find(vMoveHistory.begin(), vMoveHistory.end(), newPos) != vMoveHistory.end() || std::find(vMoveHistory.begin(), vMoveHistory.end(), newPos + vShift[vecDirPos]) != vMoveHistory.end())
+			return false;
 		vMoveHistory.push_back(newPos);
-		return true;
+		vMoveHistory.push_back(newPos + vShift[vecDirPos]);
 	}
 	return false;
 }

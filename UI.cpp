@@ -3,21 +3,33 @@
 #include "LogicElement.h"
 #include "UI.h"
 
+enum KEY {
+	W = 119,
+	A = 97,
+	S = 115,
+	D = 100,
+	ESC = 27,
+	ENTER = 13,
+	NO_KEY = -1
+};
+
+enum MENU_STATUS {
+	NEUTRAL = 0,
+	NEW_GAME = 1,
+	CONTINUE = 2,
+	CREDITS_SELECT = 3,
+	EXIT = 4,
+	CREDITS = 5,
+	ENDING= 6
+};
+
 void UI::initialize() {
 	cv::namedWindow(winName);
 	frame = cv::Mat::zeros(winHeight, winWidth, CV_8UC3);
 }
 
 int UI::navigateMenu(int key, bool& inMenu, bool& isRunning, bool& enterFlag, bool& ending) {
-	static enum MENU_STATUS {
-		NEUTRAL,
-		NEW_GAME,
-		CONTINUE,
-		CREDITS_SELECT,
-		EXIT,
-		CREDITS,
-		ENDING
-	} menuStatus = NEUTRAL;
+	static int menuStatus = NEUTRAL;
 	if (ending)
 		menuStatus = ENDING;
 	if (menuStatus == NEUTRAL && key != -1)
@@ -30,15 +42,15 @@ int UI::navigateMenu(int key, bool& inMenu, bool& isRunning, bool& enterFlag, bo
 	}
 	else {
 		switch (key) {
-		case 119: // w
+		case W:
 			if (menuStatus > NEW_GAME)
 				menuStatus = static_cast<MENU_STATUS>(static_cast<int>(menuStatus) - 1);
 			break;
-		case 115: // s
+		case S:
 			if (menuStatus < EXIT)
 				menuStatus = static_cast<MENU_STATUS>(static_cast<int>(menuStatus) + 1);
 			break;
-		case 13: // enter
+		case ENTER:
 			enterFlag = false;
 			switch (menuStatus) {
 			case NEUTRAL:
@@ -86,7 +98,7 @@ void UI::drawLevel(Level &lvl, Player &player) {
 				cv::circle(frame,
 					cv::Point(lvl.vPanel[i].getX() * scale + offset.first, lvl.vPanel[i].getY() * scale + offset.second),
 					lineWidth / 2,
-					cv::Scalar(255, 255, 255),
+					ColorPalette::WHITE,
 					-1);
 			break;
 		case 1:
@@ -94,18 +106,18 @@ void UI::drawLevel(Level &lvl, Player &player) {
 				cv::rectangle(frame,
 					cv::Point(lvl.vPanel[i].getX() * scale + offset.first - lineWidth / 2, lvl.vPanel[i].getY() * scale + offset.second - scale),
 					cv::Point(lvl.vPanel[i].getX() * scale + offset.first + lineWidth / 2, lvl.vPanel[i].getY() * scale + offset.second + scale),
-					cv::Scalar(255, 255, 255),
+					ColorPalette::WHITE,
 					-1);
 			else {
 				cv::rectangle(frame,
 					cv::Point(lvl.vPanel[i].getX() * scale + offset.first - lineWidth / 2, lvl.vPanel[i].getY() * scale + offset.second - scale),
 					cv::Point(lvl.vPanel[i].getX() * scale + offset.first + lineWidth / 2, lvl.vPanel[i].getY() * scale + offset.second - scale / 3),
-					cv::Scalar(255, 255, 255),
+					ColorPalette::WHITE,
 					-1);
 				cv::rectangle(frame,
 					cv::Point(lvl.vPanel[i].getX() * scale + offset.first - lineWidth / 2, lvl.vPanel[i].getY() * scale + offset.second + scale / 3),
 					cv::Point(lvl.vPanel[i].getX() * scale + offset.first + lineWidth / 2, lvl.vPanel[i].getY() * scale + offset.second + scale),
-					cv::Scalar(255, 255, 255),
+					ColorPalette::WHITE,
 					-1);
 			}
 			break;
@@ -114,18 +126,18 @@ void UI::drawLevel(Level &lvl, Player &player) {
 				cv::rectangle(frame,
 					cv::Point(lvl.vPanel[i].getX() * scale + offset.first - scale, lvl.vPanel[i].getY() * scale + offset.second - lineWidth / 2),
 					cv::Point(lvl.vPanel[i].getX() * scale + offset.first + scale, lvl.vPanel[i].getY() * scale + offset.second + lineWidth / 2),
-					cv::Scalar(255, 255, 255),
+					ColorPalette::WHITE,
 					-1);
 			else {
 				cv::rectangle(frame,
 					cv::Point(lvl.vPanel[i].getX() * scale + offset.first - scale, lvl.vPanel[i].getY() * scale + offset.second - lineWidth / 2),
 					cv::Point(lvl.vPanel[i].getX() * scale + offset.first - scale / 3, lvl.vPanel[i].getY() * scale + offset.second + lineWidth / 2),
-					cv::Scalar(255, 255, 255),
+					ColorPalette::WHITE,
 					-1);
 				cv::rectangle(frame,
 					cv::Point(lvl.vPanel[i].getX() * scale + offset.first + scale, lvl.vPanel[i].getY() * scale + offset.second - lineWidth / 2),
 					cv::Point(lvl.vPanel[i].getX() * scale + offset.first + scale / 3, lvl.vPanel[i].getY() * scale + offset.second + lineWidth / 2),
-					cv::Scalar(255, 255, 255),
+					ColorPalette::WHITE,
 					-1);
 			}
 			break;
@@ -138,14 +150,14 @@ void UI::drawLevel(Level &lvl, Player &player) {
 	// entry circe
 	cv::circle(frame,
 		cv::Point(lvl.entry.getX() * scale + offset.first, lvl.entry.getY() * scale + offset.second),
-		ioRadius * scale * .02,
+		(int)(ioRadius * scale * .02),
 		playerColor,
 		-1);
 	// exit circle
 	cv::circle(frame,
 		cv::Point(lvl.exit.getX() * scale + offset.first, lvl.exit.getY() * scale + offset.second),
-		ioRadius * scale * .02,
-		cv::Scalar(255, 255, 255),
+		(int)(ioRadius * scale * .02),
+		ColorPalette::WHITE,
 		-1);
 	// player's tracks
 	for (int i = 1; i < player.vMoveHistory.size(); i++) {
@@ -157,14 +169,14 @@ void UI::drawLevel(Level &lvl, Player &player) {
 		if (player.vMoveHistory[i].getDirection() == 119 || player.vMoveHistory[i].getDirection() == 115) {
 			cv::rectangle(frame,
 				cv::Point(player.vMoveHistory[i].getX() * scale + offset.first - lineWidth / 2, player.vMoveHistory[i].getY() * scale + offset.second),
-				cv::Point(player.vMoveHistory[i-1].getX() * scale + offset.first + lineWidth / 2, player.vMoveHistory[i-1].getY() * scale + offset.second),
+				cv::Point(player.vMoveHistory[(int)i-1].getX() * scale + offset.first + lineWidth / 2, player.vMoveHistory[(int)i-1].getY() * scale + offset.second),
 				playerColor,
 				-1);
 		}
 		else {
 			cv::rectangle(frame,
 				cv::Point(player.vMoveHistory[i].getX() * scale + offset.first, player.vMoveHistory[i].getY() * scale + offset.second - lineWidth / 2),
-				cv::Point(player.vMoveHistory[i-1].getX() * scale + offset.first, player.vMoveHistory[i-1].getY() * scale + offset.second + lineWidth / 2),
+				cv::Point(player.vMoveHistory[(int)i-1].getX() * scale + offset.first, player.vMoveHistory[(int)i-1].getY() * scale + offset.second + lineWidth / 2),
 				playerColor,
 				-1);
 		}
@@ -173,26 +185,31 @@ void UI::drawLevel(Level &lvl, Player &player) {
 
 void UI::evaluateInput(int& key, bool& moveReq, bool& enterFlag, bool& inMenu) {
 	switch (key) {
-	case 119: // w
-	case 97: // a
-	case 115: // s
-	case 100: // d
+	case W:
+	case A:
+	case S:
+	case D:
 		if (!inMenu)
 			moveReq = true;
 		break;
-	case 27: // esc
+	case ESC:
 		inMenu = true;
 		break;
-	case 13: // enter
+	case ENTER:
 		enterFlag = true;
 		break;
 	default:
-		key = -1;
+		key = NO_KEY;
 		break;
 	}
 }
 
-int UI::showFrame(int frameRate) {
+int UI::showFrame(int frameRate, int lvlNo) const{
+	cv::setWindowTitle(winName, winTitle);
 	cv::imshow(winName, frame);
 	return cv::waitKey(frameRate);
+}
+
+void UI::setTitle(const std::string title) {
+	winTitle = title;
 }

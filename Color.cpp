@@ -5,7 +5,7 @@ bool Color::isFulfilled(Player& player, Level& lvl) {
 	std::vector<Coords> vInUnion = findUnion(Coords(x, y), player, lvl);
 	for (int i = 0; i < vInUnion.size(); i++) {
 		for (int k = 0; k < lvl.logElemCount(); k++)
-			if (vInUnion[i] == *(lvl.getLogElem(k)) && lvl.getLogElem(k)->getID() == 1) {
+			if (vInUnion[i] == *(lvl.getLogElem(k)) && typeid(*(lvl.getLogElem(k))).name() == typeid(Color).name()) {
 				if (keyID == -1)
 					keyID = (std::static_pointer_cast<Color>(lvl.getLogElem(k)))->colorID;
 				else if (keyID != (std::static_pointer_cast<Color>(lvl.getLogElem(k)))->colorID)
@@ -19,15 +19,16 @@ void Color::drawLogElem(cv::Mat& canvas, int scale, std::pair<int, int> offset) 
 	cv::Scalar color;
 	switch (colorID) {
 	case 0:
-		color = cv::Scalar(240, 207, 137);
+		color = ColorPalette::BLACK;
 		break;
 	case 1:
-		color = cv::Scalar(100, 220, 80);
+		color = ColorPalette::BLUE;
 		break;
 	case 2:
-		color = cv::Scalar(197, 246, 253);
+		color = ColorPalette::PINK;
 		break;
 	}
+	// cross
 	cv::rectangle(canvas,
 		cv::Point(x * scale + offset.first - scale / 10, y * scale + offset.second - scale / 5),
 		cv::Point(x * scale + offset.first + scale / 10, y * scale + offset.second + scale / 5),
@@ -38,7 +39,7 @@ void Color::drawLogElem(cv::Mat& canvas, int scale, std::pair<int, int> offset) 
 		cv::Point(x * scale + offset.first + scale / 5, y * scale + offset.second + scale / 10),
 		color,
 		-1);
-	// TODO: too much code here for 4 circles
+	// filling rounded corners
 	cv::circle(canvas,
 		cv::Point(x * scale + offset.first - scale / 10, y * scale + offset.second - scale / 10),
 		scale / 10,

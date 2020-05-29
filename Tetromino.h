@@ -1,8 +1,6 @@
 #pragma once
 #include "LogicElement.h"
 
-// id 2
-
 class Tetromino : public LogicElement {
 	const bool rotatable;
 	std::vector<std::pair<int, int>> shape;

@@ -5,7 +5,7 @@ void Dot::drawLogElem(cv::Mat &canvas, int scale, std::pair<int, int> offset) {
 	cv::circle(canvas,
 		cv::Point(x * scale + offset.first, y * scale + offset.second),
 		dotRadius,
-		cv::Scalar(60, 40, 40),
+		ColorPalette::BLACK,
 		-1);
 }
 

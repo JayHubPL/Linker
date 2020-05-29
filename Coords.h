@@ -1,4 +1,5 @@
 #pragma once
+#include <utility>
 
 class Coords {
 protected:
@@ -15,5 +16,6 @@ public:
 	bool operator== (const Coords &p) const { return (this->x == p.x && this->y == p.y); }
 	bool operator!= (const Coords &p) const { return (this->x != p.x || this->y != p.y); }
 	bool operator< (const Coords &p) const;
+	Coords operator+ (const std::pair<int, int> &p) const;
 	Coords(int x = -1, int y = -1, int dir = -1) : x(x), y(y), direction(dir), gap(false) { }
 };

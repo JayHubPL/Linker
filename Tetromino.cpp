@@ -3,11 +3,7 @@
 void Tetromino::drawLogElem(cv::Mat& canvas, int scale, std::pair<int, int> offset) {
 	static const int spread = 8;
 	static const int size = 6;
-	cv::Scalar color;
-	if (rotatable)
-		color = cv::Scalar(60, 20, 220);
-	else
-		color = cv::Scalar(255, 255, 255);
+	// center alignment
 	int w = 0, h = 0;
 	for (int i = 0; i < shape.size(); i++) {
 		w = std::max(w, 2 * shape[i].first);
@@ -19,7 +15,7 @@ void Tetromino::drawLogElem(cv::Mat& canvas, int scale, std::pair<int, int> offs
 		cv::rectangle(canvas,
 			cv::Point(x * scale + offset.first + (2 * shape[i].first - w) * spread - size, y * scale + offset.second + (2 * shape[i].second - h) * spread - size),
 			cv::Point(x * scale + offset.first + (2 * shape[i].first - w) * spread + size, y * scale + offset.second + (2 * shape[i].second - h) * spread + size),
-			color,
+			((rotatable) ? ColorPalette::RED : ColorPalette::WHITE),
 			-1);
 }
 
@@ -105,7 +101,7 @@ bool Tetromino::isFulfilled(Player& player, Level& lvl) {
 	std::vector<std::shared_ptr<LogicElement>> vPtr;
 	for (int i = 0; i < vTilesInUnion.size(); i++)
 		for (int k = 0; k < lvl.logElemCount(); k++)
-			if (vTilesInUnion[i] == *(lvl.getLogElem(k)) && lvl.getLogElem(k)->getID() == 2) {
+			if (vTilesInUnion[i] == *(lvl.getLogElem(k)) && typeid(*(lvl.getLogElem(k))).name() == typeid(Tetromino).name()) {
 				vPtr.push_back(lvl.getLogElem(k));
 				vTetrominosInUnion.push_back((std::static_pointer_cast<Tetromino>(lvl.getLogElem(k)))->shape);
 				rotatability.push_back((std::static_pointer_cast<Tetromino>(lvl.getLogElem(k)))->rotatable);
@@ -150,7 +146,7 @@ bool Tetromino::isFulfilled(Player& player, Level& lvl) {
 	return false;
 }
 
-Tetromino::Tetromino(int x, int y, int shapeID, bool rotatable) : LogicElement(Coords(x, y), 2), rotatable(rotatable), inSolution(false) {
+Tetromino::Tetromino(int x, int y, int shapeID, bool rotatable) : LogicElement(Coords(x, y)), rotatable(rotatable), inSolution(false) {
 	static const std::vector<std::vector<std::pair<int, int>>> vAllShapes = {
 		{ {0,0} },
 		{ {0,0},{0,1} },

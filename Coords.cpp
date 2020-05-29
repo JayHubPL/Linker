@@ -32,3 +32,7 @@ bool Coords::operator< (const Coords &p) const {
 	else
 		return this->getX() < p.getX();
 };
+
+Coords Coords::operator+ (const std::pair<int, int>& p) const {
+	return Coords(this->x + p.first, this->y + p.second, this->direction);
+}

@@ -96,15 +96,15 @@ void Level::readLevelData(int lvlNo) {
 			exit = Coords(x, y);
 			break;
 		case 3:
-			vLogElem.emplace_back(new Dot(x, y));
+			vLogElem.emplace_back(std::make_shared<Dot>(x, y));
 			break;
 		case 4:
 			file >> param1;
-			vLogElem.emplace_back(new Color(x, y, param1));
+			vLogElem.emplace_back(std::make_shared<Color>(x, y, param1));
 			break;
 		case 5:
 			file >> param1 >> param2;
-			vLogElem.emplace_back(new Tetromino(x, y, param1, param2));
+			vLogElem.emplace_back(std::make_shared<Tetromino>(x, y, param1, param2));
 			break;
 		case 6:
 			for (int i = 0; i < vPanel.size(); i++)
@@ -113,7 +113,7 @@ void Level::readLevelData(int lvlNo) {
 			break;
 		case 7:
 			file >> param1;
-			vLogElem.emplace_back(new Dorito(x, y, param1));
+			vLogElem.emplace_back(std::make_shared<Dorito>(x, y, param1));
 			break;
 		}
 	}
