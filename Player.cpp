@@ -46,3 +46,12 @@ bool Player::move(int dir, Level &lvl) {
 	}
 	return false;
 }
+
+const std::vector<Coords>& Player::getMoveHistory() const {
+	return vMoveHistory;
+}
+
+void Player::setMoveHistory(std::vector<Coords>& v) {
+	vMoveHistory.clear();
+	vMoveHistory = v;
+}

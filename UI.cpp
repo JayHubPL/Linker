@@ -8,6 +8,8 @@ enum KEY {
 	A = 97,
 	S = 115,
 	D = 100,
+	Z = 122,
+	X = 120,
 	ESC = 27,
 	ENTER = 13,
 	NO_KEY = -1
@@ -198,13 +200,16 @@ void UI::evaluateInput(int& key, bool& moveReq, bool& enterFlag, bool& inMenu) {
 	case ENTER:
 		enterFlag = true;
 		break;
+	case Z:
+	case X:
+		break;
 	default:
 		key = NO_KEY;
 		break;
 	}
 }
 
-int UI::showFrame(int frameRate, int lvlNo) const{
+int UI::showFrame(int frameRate) const{
 	cv::setWindowTitle(winName, winTitle);
 	cv::imshow(winName, frame);
 	return cv::waitKey(frameRate);
