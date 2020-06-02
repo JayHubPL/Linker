@@ -8,5 +8,6 @@ class Tetromino : public LogicElement {
 public:
 	void drawLogElem(cv::Mat&, int, std::pair<int, int>) override;
 	bool isFulfilled(Player&, Level&) override;
+	void resetInSolution();
 	Tetromino(int, int, int, bool);
 };

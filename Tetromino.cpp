@@ -51,6 +51,10 @@ void rotatePoint(std::pair<int, int>& p, int k) {
 	}
 }
 
+void Tetromino::resetInSolution() {
+	inSolution = false;
+}
+
 /*
 void rotateTetromino(std::vector<std::pair<int, int>>& tetro, int k) {
 	for (int i = 0; i < tetro.size(); i++)
@@ -91,7 +95,7 @@ bool solve(std::vector<std::vector<std::pair<int, int>>>& vTetrominosInUnion, in
 */
 
 bool Tetromino::isFulfilled(Player& player, Level& lvl) {
-	// checking if union resolver previously
+	// checking if union was resolved previously
 	if (inSolution)
 		return true;
 	std::vector<Coords> vTilesInUnion = findUnion(Coords(x, y), player, lvl);

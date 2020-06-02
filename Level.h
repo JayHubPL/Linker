@@ -16,6 +16,7 @@ public:
 	Coords getExit() const;
 	bool checkForPoint(const Coords&) const;
 	bool checkForTile(const Coords&) const;
+	void resetLogElemData();
 	size_t logElemCount() const;
 	size_t tileCount() const;
 	std::shared_ptr<LogicElement> getLogElem(int) const;

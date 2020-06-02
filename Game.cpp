@@ -1,4 +1,3 @@
-#include <iostream>
 #include <fstream>
 #include "LogicElement.h"
 #include "Game.h"
@@ -17,7 +16,7 @@ void goToLine(std::fstream& file, const int line) {
 		file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-void clearSave(int &lastSolved, int &currLvl) {
+void Game::clearSave(int &lastSolved, int &currLvl) {
 	lastSolved = -1;
 	currLvl = 0;
 	std::fstream file;
@@ -49,6 +48,7 @@ void Game::setupLevel(int lvlNo) {
 bool Game::checkSolution() {
 	if (player.currPos() != level.getExit())
 		return false;
+	level.resetLogElemData();
 	for (int i = 0; i < level.logElemCount(); i++)
 		if (!level.getLogElem(i)->isFulfilled(player, level))
 			return false;

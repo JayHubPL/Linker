@@ -96,12 +96,11 @@ void UI::drawLevel(Level &lvl, Player &player) {
 	for (int i = 0; i < lvl.vPanel.size(); i++) {
 		switch (lvl.vPanel[i].getType()) {
 		case 0:
-			if (!lvl.vPanel[i].isGap())
-				cv::circle(frame,
-					cv::Point(lvl.vPanel[i].getX() * scale + offset.first, lvl.vPanel[i].getY() * scale + offset.second),
-					lineWidth / 2,
-					ColorPalette::WHITE,
-					-1);
+			cv::circle(frame,
+				cv::Point(lvl.vPanel[i].getX() * scale + offset.first, lvl.vPanel[i].getY() * scale + offset.second),
+				lineWidth / 2,
+				ColorPalette::WHITE,
+				-1);
 			break;
 		case 1:
 			if (!lvl.vPanel[i].isGap())

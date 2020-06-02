@@ -49,6 +49,12 @@ void Level::clearLevelData() {
 	vLogElem.clear();
 }
 
+void Level::resetLogElemData() {
+	for (int i = 0; i < vLogElem.size(); i++)
+		if (typeid(*(vLogElem[i])).name() == typeid(Tetromino).name())
+			(std::static_pointer_cast<Tetromino>(vLogElem[i]))->resetInSolution();
+}
+
 void Level::readLevelData(int lvlNo) {
 	clearLevelData();
 	std::fstream file;

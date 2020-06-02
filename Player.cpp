@@ -43,6 +43,7 @@ bool Player::move(int dir, Level &lvl) {
 			return false;
 		vMoveHistory.push_back(newPos);
 		vMoveHistory.push_back(newPos + vShift[vecDirPos]);
+		return true;
 	}
 	return false;
 }
